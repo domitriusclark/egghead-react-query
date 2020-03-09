@@ -10,7 +10,6 @@ export default function SearchCharacters() {
   const [name, setName] = React.useState(null);
 
   function addCharacterToFavorites({ character }) {
-    console.log(character)
     queryCache.setQueryData('favoriteCharacters', prevData => {
       if (prevData !== undefined) {
         if (prevData.some(data => data.id === character.id)) {
@@ -51,56 +50,23 @@ export default function SearchCharacters() {
   return (
     <div css={css`
       display: flex;
-      flex-direction: column;
-      justify-content: center;    
-      color: white;
-      height: auto;
-      width: 100%;
+      justify-content: space-around;
+      padding: 30px;
     `}>
-      <div css={css`
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        width: auto;
-      `}>
+      <div>
         <div>
-          <input css={css`
-            height: 20px;
-            width: 100px;
-            border-radius: 4px 0 0 4px;
-            border: none;
-          `} onChange={e => setInput(e.target.value)} />
-          <button css={css`
-            border-radius: 0 4px 4px 0;
-            height: 22px;
-          `} onClick={() => setName(input)}>Search</button>
+          <input onChange={e => setInput(e.target.value)} />
+          <button onClick={() => setName(input)}>Search</button>
         </div>
+        <div>
+          {data && <CharacterList action="add" data={data.results} mutate={addToFavorites} />}
+        </div>
+      </div>
+      <div>
         <div>
           <h2>Favorite Characters</h2>
         </div>
-      </div>
-      <div css={css`
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        width: auto;
-        height: auto;
-        padding: 0 50px 0 50px;
-      `}>
-        <div css={css`
-          display: flex;
-          flex-direction: column;
-          justify-content: space-around;
-          height: auto;
-        `}>
-          {data && <CharacterList action="add" data={data.results} mutate={addToFavorites} />}
-        </div>
-        <div css={css`
-          display: flex;
-          flex-direction: column;
-          justify-content: space-around;
-          height: auto;
-        `}>
+        <div>
           {favoriteCharacters && <CharacterList action="remove" data={favoriteCharacters} mutate={removeFromFavorites} />}
         </div>
       </div>
